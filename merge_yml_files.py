@@ -4,8 +4,10 @@ import sys, getopt
 import subprocess
 import sys
 import shutil
-from os import path
+from os import path, listdir
 from datetime import datetime
+
+PKG_DIR_PATH = './pkg'
 
 def install(package):
     subprocess.check_call([sys.executable, "-m", "pip", "install", package], stdout=subprocess.DEVNULL, stderr=subprocess.STDOUT)
@@ -68,5 +70,9 @@ def main(argv):
     merge_config(source1, source2, dest)
 
 if __name__ == "__main__":
-    install('./pkg/ruamel.yaml-0.18.5.tar.gz')
+    for p in listdir(PKG_DIR_PATH):
+        dep_path = path.join(PKG_DIR_PATH, p)
+        print("Installation de la dépendance pip " + dep_path)
+        print('\n------------------------\n')
+        install(dep_path)
     main(sys.argv[1:])
